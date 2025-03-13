@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">popupWindow</string>
+    <string name="shanghai">上海</string>
+    <string name="beijing">北京</string>
+</resources>
