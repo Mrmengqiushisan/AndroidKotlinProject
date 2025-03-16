@@ -11,6 +11,11 @@ class LoginDataSource {
     fun login(username: String, password: String): Result<LoggedInUser> {
         try {
             // TODO: handle loggedInUser authentication
+            if(!username.equals("13209832943@163.com",true)){
+                return  Result.Error(IOException("Eddress Error"))
+            }else if(!password.equals("521109xsq",false)){
+                return  Result.Error(IOException("Password Error"))
+            }
             val fakeUser = LoggedInUser(java.util.UUID.randomUUID().toString(), "Jane Doe")
             return Result.Success(fakeUser)
         } catch (e: Throwable) {

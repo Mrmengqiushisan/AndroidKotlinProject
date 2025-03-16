@@ -1,6 +1,7 @@
 package com.example.broadcastbestpractice.ui.login
 
 import android.app.Activity
+import android.content.Intent
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -12,11 +13,13 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.Toast
+import com.example.broadcastbestpractice.MainActivity
 import com.example.broadcastbestpractice.databinding.ActivityLoginBinding
 
 import com.example.broadcastbestpractice.R
+import com.example.broadcastbestpractice.baseability.BaseActivity
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : BaseActivity() {
 
     private lateinit var loginViewModel: LoginViewModel
     private lateinit var binding: ActivityLoginBinding
@@ -62,14 +65,32 @@ class LoginActivity : AppCompatActivity() {
             setResult(Activity.RESULT_OK)
 
             //Complete and destroy login activity once successful
+
+            val intent=Intent(this,MainActivity::class.java)
+            startActivity(intent)
             finish()
         })
 
-        username.afterTextChanged {
-            loginViewModel.loginDataChanged(
-                username.text.toString(),
-                password.text.toString()
-            )
+
+        username.apply {
+            afterTextChanged {
+                loginViewModel.loginDataChanged(
+                    username.text.toString(),
+                    password.text.toString()
+                )
+            }
+
+            setOnEditorActionListener { _, actionId, _ ->
+                when (actionId) {
+                    EditorInfo.IME_ACTION_DONE ->
+                        loginViewModel.login(
+                            username.text.toString(),
+                            password.text.toString()
+                        )
+                }
+                false
+            }
+
         }
 
         password.apply {
